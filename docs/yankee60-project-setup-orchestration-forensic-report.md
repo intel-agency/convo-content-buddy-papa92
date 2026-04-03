@@ -102,7 +102,7 @@ The orchestrator agent determined it was operating on a "template repository (no
 ```
 
 The creation script (`create-repo-with-plan-docs.ps1`) performs two text substitutions across all files:
-- `ai-new-workflow-app-template` → new repo name
+- `convo-content-buddy-papa92` → new repo name
 - `intel-agency` → new owner
 
 Neither substitution touches the phrase **"GitHub template repo"**. The repo name inside the parentheses gets updated correctly, but the label before it does not. The AGENTS.md in yankee60 therefore identifies itself as the template, which the orchestrator reads as an authoritative self-description.
@@ -152,7 +152,7 @@ To:
 ```xml
 <summary>
   This repository is a **project instance** cloned from the
-  `ai-new-workflow-app-template` GitHub template.
+  `convo-content-buddy-papa92` GitHub template.
   It is an active project repo, not the template itself.
 </summary>
 
@@ -181,7 +181,7 @@ Add to the placeholder-replacement step in the script (after existing `sed` subs
 $agentsFile = Join-Path $cloneDir "AGENTS.md"
 (Get-Content $agentsFile -Raw) -replace
   '(?s)(<template_usage>\s*<summary>)[^<]*(</summary>)',
-  "`$1`n      This repository is a **project instance** cloned from the``n      ``ai-new-workflow-app-template`` GitHub template.``n      It is an active project repo, not the template itself.``n    `$2" |
+  "`$1`n      This repository is a **project instance** cloned from the``n      ``convo-content-buddy-papa92`` GitHub template.``n      It is an active project repo, not the template itself.``n    `$2" |
   Set-Content $agentsFile
 ```
 
@@ -189,7 +189,7 @@ $agentsFile = Join-Path $cloneDir "AGENTS.md"
 
 ### Solution C: Restructure `AGENTS.md` in the template to use a placeholder that gets replaced cleanly *(architectural fix)*
 
-**Change:** In `ai-new-workflow-app-template`'s `AGENTS.md`, replace the prose "GitHub template repo" label with a dedicated placeholder token (e.g., `__REPO_KIND__`) that the creation script substitutes with `project instance` in every clone.
+**Change:** In `convo-content-buddy-papa92`'s `AGENTS.md`, replace the prose "GitHub template repo" label with a dedicated placeholder token (e.g., `__REPO_KIND__`) that the creation script substitutes with `project instance` in every clone.
 
 | Pros | Cons |
 |------|------|
@@ -204,13 +204,13 @@ Change template AGENTS.md `<summary>` to:
 ```xml
 <summary>
   This repository is a **__REPO_KIND__**
-  (`intel-agency/ai-new-workflow-app-template`).
+  (`intel-agency/convo-content-buddy-papa92`).
   ...
 </summary>
 
 ```
 
-Add to the creation script's substitution list: `__REPO_KIND__` → `project instance cloned from ai-new-workflow-app-template`.
+Add to the creation script's substitution list: `__REPO_KIND__` → `project instance cloned from convo-content-buddy-papa92`.
 
 ---
 
@@ -308,7 +308,7 @@ Edit `AGENTS.md`, rewrite `<template_usage><summary>` to:
 ```xml
 <summary>
   This repository is a **project instance** cloned from the
-  `ai-new-workflow-app-template` GitHub template.
+  `convo-content-buddy-papa92` GitHub template.
   It is an active project repo, not the template itself.
 </summary>
 ```
@@ -326,7 +326,7 @@ The `opencode-traces` artifact for run 23878622026 was uploaded with retention-d
 - Issue: `intel-agency/workflow-orchestration-service-yankee60#1` — title, body, labels, 3 orchestrator comments
 - Workflow definition: `.github/workflows/orchestrator-agent.yml` (raw, main branch) — step structure, skip-event filter, job permissions
 - Repo structure: root listing, `plan_docs/` directory listing — OS-APOW spec and migration plan present
-- Template repo: `intel-agency/ai-new-workflow-app-template` AGENTS.md — creation pipeline design, `create-repo-with-plan-docs.ps1` flow, delegation depth constraints
+- Template repo: `intel-agency/convo-content-buddy-papa92` AGENTS.md — creation pipeline design, `create-repo-with-plan-docs.ps1` flow, delegation depth constraints
 
 ---
 
@@ -342,7 +342,7 @@ Commit [`3a23cdb`](https://github.com/nam20485/workflow-launch2/commit/3a23cdb) 
 
 `create-repo-with-plan-docs.ps1` was updated to rewrite the `<template_usage><summary>` label in `AGENTS.md` immediately after placeholder substitution in both execution paths:
 
-1. **Main flow** (post-clone, pre-commit): replaces `**GitHub template repo**` with `**project instance** cloned from the \`intel-agency/ai-new-workflow-app-template\` GitHub template`
+1. **Main flow** (post-clone, pre-commit): replaces `**GitHub template repo**` with `**project instance** cloned from the \`intel-agency/convo-content-buddy-papa92\` GitHub template`
 2. **Post-rebase recovery path**: re-applies the same rewrite if a template race forced a rebase before the seed commit could land
 
 This is the fix that prevents all future clones from hitting this defect. The replacement is idempotent — if the label is already correct (e.g., re-run against the same clone), the step self-reports `skipped (already updated)`.
