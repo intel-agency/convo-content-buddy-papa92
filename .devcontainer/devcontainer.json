@@ -1,5 +1,5 @@
 {
-  "name": "convo-content-buddy-papa92",
+  "name": "convo-content-buddy-papa92-devcontainer",
   "image": "ghcr.io/intel-agency/workflow-orchestration-prebuild/devcontainer:main-latest",
   "containerEnv": {
     "DOTNET_ROOT": "/usr/share/dotnet"
