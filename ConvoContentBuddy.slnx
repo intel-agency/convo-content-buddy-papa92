@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ConvoContentBuddy.Api/ConvoContentBuddy.Api.csproj" />
+    <Project Path="src/ConvoContentBuddy.AppHost/ConvoContentBuddy.AppHost.csproj" />
+    <Project Path="src/ConvoContentBuddy.Frontend/ConvoContentBuddy.Frontend.csproj" />
+    <Project Path="src/ConvoContentBuddy.ServiceDefaults/ConvoContentBuddy.ServiceDefaults.csproj" />
+  </Folder>
+</Solution>
